@@ -6,7 +6,10 @@ let remoteContainer = document.getElementById("remote-container");
 
 //Function to add video stream to video-container.
 function addVideoStream(streamID){
-
+    let streamDiv = document.createElement("div");
+    streamDiv.id = streamId;                       
+    streamDiv.style.transform = "rotateY(180deg)"; 
+    remoteContainer.appendChild(streamDiv);
 }
 //Function to remove video stream from videocontainer
 function removeVideoStream(event){
@@ -20,7 +23,7 @@ let client = AgoraRTC.createClient({
 });
 
 //Initializing Client
-client.init(<app id>, function(){
+client.init("3297051f59d6438c9011ed11254b828e", function(){
     console.log("Initialized successfully!");
 });
 
