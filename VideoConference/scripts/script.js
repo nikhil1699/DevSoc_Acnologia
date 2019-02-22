@@ -4,25 +4,30 @@ let errfunc = function(err){
 
 let remoteContainer = document.getElementById("remote-container");
 
-//Function to add video stream to video-container.
-function addVideoStream(streamID){
-    let streamDiv = document.createElement("div");
-    streamDiv.id = streamId;                       
-    streamDiv.style.transform = "rotateY(180deg)"; 
-    remoteContainer.appendChild(streamDiv);
-}
-//Function to remove video stream from videocontainer
-function removeVideoStream(event){
-
+//To add video stream to the container.
+function addVideoStream(streamId){
+    let strDiv = document.createElement("div"); 
+    strDiv.id = streamId;                       
+    strDiv.style.transform = "rotateY(180deg)"; 
+    remoteContainer.appendChild(strDiv);      
 }
 
-//Creating client
+//To remove the video stream from the container.
+function removeVideoStream (event) {
+    let stream = event.stream;
+    stream.stop();
+    let remDiv = document.getElementById(stream.getId());
+    remDiv.parentNode.removeChild(remDiv);
+    console.log("Remote stream is removed " + stream.getId());
+}
+
+//
 let client = AgoraRTC.createClient({
     mode : 'live',
     codec : "h264"
 });
 
-//Initializing Client
+//Initializing client
 client.init("3297051f59d6438c9011ed11254b828e", function(){
     console.log("Initialized successfully!");
 });
@@ -30,7 +35,7 @@ client.init("3297051f59d6438c9011ed11254b828e", function(){
 //Joining the client
 client.join(null, 'video-demo', null, function(uid){
 
-    let localstream = AgoraRTC.createStream({
+    let lstream = AgoraRTC.createStream({
         streamID : uid,
         audio : false,
         video : true,
